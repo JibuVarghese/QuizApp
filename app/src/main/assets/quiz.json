@@ -1,0 +1,34 @@
+{
+  "Questions": [
+    {
+      "question": "Which is a Programming Language?",
+      "choices": [
+        "HTML",
+        "CSS",
+        "Vala",
+        "PHP"
+      ],
+      "answer": "PHP"
+    },
+    {
+      "question": "What year did Google purchased Android Inc.?",
+      "choices": [
+        "2003",
+        "2004",
+        "2005",
+        "2006"
+      ],
+      "answer": "2005"
+    },
+    {
+      "question": "Programming language COBOL works best for use in?",
+      "choices": [
+        "Siemens Applications",
+        "Student Applications",
+        "Social Applications",
+        "Commercial Applications"
+      ],
+      "answer": "Commercial Applications"
+    }
+  ]
+}
