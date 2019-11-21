@@ -14,10 +14,13 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jvm.quizapp.model.Questions;
+import com.jvm.quizapp.model.QuizResults;
+import com.jvm.quizapp.model.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int questionLength = questions.questions.length;
     int currentQuestion = 0;
 
+    QuizResults quizResults = new QuizResults();
+    ArrayList<Result> results = new ArrayList<>();
+
     //Random random;
 
     @Override
@@ -38,9 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //random = new Random();
-
-
-
         btn_one = findViewById(R.id.btn_one);
         btn_one.setOnClickListener(this);
         btn_two = findViewById(R.id.btn_two);
@@ -57,54 +60,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_one:
-                if(btn_one.getText() == answer){
-                    Toast.makeText(MainActivity.this, "You Are Correct", Toast.LENGTH_SHORT).show();
-                    NextQuestion(currentQuestion++);
-                }else{
-                    GameOver();
-                }
-
+                showResponse(btn_one.getText());
                 break;
 
             case R.id.btn_two:
-                if(btn_two.getText() == answer){
-                    Toast.makeText(MainActivity.this, "You Are Correct", Toast.LENGTH_SHORT).show();
-                    NextQuestion(currentQuestion++);
-                }else{
-                    GameOver();
-                }
-
+                showResponse(btn_two.getText());
                 break;
 
             case R.id.btn_three:
-                if(btn_three.getText() == answer){
-                    Toast.makeText(MainActivity.this, "You Are Correct", Toast.LENGTH_SHORT).show();
-                    NextQuestion(currentQuestion++);
-                }else{
-                    GameOver();
-                }
-
+                showResponse(btn_three.getText());
                 break;
 
             case R.id.btn_four:
-                if(btn_four.getText() == answer){
-                    Toast.makeText(MainActivity.this, "You Are Correct", Toast.LENGTH_SHORT).show();
-                    NextQuestion(currentQuestion++);
-                }else{
-                    GameOver();
-                }
-
+                showResponse(btn_four.getText());
                 break;
         }
     }
 
-    private void GameOver(){
+    private void showResponse(CharSequence text){
+        Result result = new Result();
+        result.setQuestion(tv_question.getText().toString());
+        result.setUserChoice(text.toString());
+        result.setAnswer(answer);
+
+        results.add(result);
+        if (text == answer) {
+            Toast.makeText(MainActivity.this, "You Are Correct", Toast.LENGTH_SHORT).show();
+            NextQuestion(currentQuestion++);
+        } else {
+            Toast.makeText(MainActivity.this, "You Are Wrong", Toast.LENGTH_SHORT).show();
+            GameOver();
+        }
+    }
+
+    private void GameOver() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder
                 .setMessage("Quiz Over")
                 .setCancelable(false)
+                .setNeutralButton("See Result", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        quizResults.setResults(results);
+                        Intent intent = new Intent(MainActivity.this, Results.class);
+                        intent.putExtra("Result", new Gson().toJson(quizResults));
+                        startActivity(intent);
+                    }
+                })
                 .setPositiveButton("Start New Quiz Game", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -114,15 +118,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        System.exit(0);
+                        finish();
                     }
                 });
         alertDialogBuilder.show();
 
     }
 
-    private void NextQuestion(int num){
-        if(num < questionLength){
+    private void NextQuestion(int num) {
+        if (num < questionLength) {
             currentQuestion++;
             tv_question.setText(questions.getQuestion(num));
             btn_one.setText(questions.getchoice1(num));
@@ -131,12 +135,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btn_four.setText(questions.getchoice4(num));
 
             answer = questions.getCorrectAnswer(num);
-        }else {
+        } else if (num == questionLength) {
+            int num1 = num - 1;
+            tv_question.setText(questions.getQuestion(num1));
+            btn_one.setText(questions.getchoice1(num1));
+            btn_two.setText(questions.getchoice2(num1));
+            btn_three.setText(questions.getchoice3(num1));
+            btn_four.setText(questions.getchoice4(num1));
+
+            answer = questions.getCorrectAnswer(num1);
+        } else {
+            //Toast.makeText(MainActivity.this, "You Are Wrong", Toast.LENGTH_SHORT).show();
             GameOver();
         }
     }
 
-    public void getQuestionList(){
+    public void getQuestionList() {
         Gson gson = new Gson();
         Questions questions = gson.fromJson(loadJSONFromAsset(this), Questions.class);
     }

@@ -9,13 +9,13 @@ public class QuizQuestions {
 
     @SerializedName("Questions")
     @Expose
-    private List<Questions> questions = null;
+    private List<Question> questions = null;
 
-    public List<Questions> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Questions> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 

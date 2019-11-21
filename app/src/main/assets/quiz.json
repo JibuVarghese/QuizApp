@@ -5,7 +5,7 @@
       "choices": [
         "HTML",
         "CSS",
-        "Vala",
+        "SUBLIME",
         "PHP"
       ],
       "answer": "PHP"
@@ -21,14 +21,14 @@
       "answer": "2005"
     },
     {
-      "question": "Programming language COBOL works best for use in?",
+      "question": "What is the capital of India?",
       "choices": [
-        "Siemens Applications",
-        "Student Applications",
-        "Social Applications",
-        "Commercial Applications"
+        "NEW DELHI",
+        "KARNATAKA",
+        "UTTARPRADESH",
+        "MAHARASTRA"
       ],
-      "answer": "Commercial Applications"
+      "answer": "NEW DELHI"
     }
   ]
 }

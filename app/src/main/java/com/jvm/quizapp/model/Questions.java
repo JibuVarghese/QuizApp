@@ -5,19 +5,19 @@ public class Questions {
     public String questions[] = {
             "Which is a Programming Language?",
             "What year did Google purchased Android Inc.?",
-            "Programming language COBOL works best for use in?"
+            "What is the capital of India?"
     };
 
     public String[][] choices = {
-            {"HTML", "CSS", "Vala", "PHP"},
+            {"HTML", "CSS", "SUBLIME", "PHP"},
             {"2003", "2004", "2005", "2006"},
-            {"Siemens Applications", "Student Applications", "Social Applications", "Commercial Applications"}
+            {"NEW DELHI", "KARNATAKA", "UTTARPRADESH", "MAHARASTRA"}
     };
 
     public String[] correctAnswer = {
             "PHP",
             "2005",
-            "Commercial Applications"
+            "NEW DELHI"
     };
 
     public String getQuestion(int a) {
